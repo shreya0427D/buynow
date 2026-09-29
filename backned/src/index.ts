@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 
+import fs from "fs";
+import path from "node:path";
+
 import { clerkMiddleware } from "@clerk/express";
 import { clerkWebhookHandler } from "./webhooks/clerk";
 import { getEnv } from "./lib/env";
@@ -53,7 +56,7 @@ if(fs.existsSync(publicDir)){
         return;
     } 
         res.sendFile(path.join(publicDir, "index.html"),(err) => next(err));
-        
+
     });
 }
 
