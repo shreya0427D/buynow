@@ -5,6 +5,7 @@ import "dotenv/config";
 import { clerkMiddleware } from "@clerk/express";
 import { clerkWebhookHandler } from "./webhooks/clerk";
 import { getEnv } from "./lib/env";
+import path from "path/win32";
 
 const env = getEnv();
 
@@ -19,11 +20,42 @@ app.post("/webhooks/clerk", rawjson, (req, res) => {
     void clerkWebhookHandler(req, res);
 });
 
+app.post("/webhooks/polar", rawjson, (req, res) => {
+    void clerkWebhookHandler(req, res);
+});
+app.post("/api/users", rawjson, (req, res) => {
+    void clerkWebhookHandler(req, res);
+});
+app.post("/webhooks/clerk", rawjson, (req, res) => {
+    void clerkWebhookHandler(req, res);
+});
+app.post("/webhooks/clerk", rawjson, (req, res) => {
+    void clerkWebhookHandler(req, res);
+});
 app.use(express.json());
 
 app.use(clerkMiddleware());
 
 app.use(cors());
+
+const publicDir = path.join(process.cwd(), "public");
+if(fs.existsSync(publicDir)){
+    app.use(express.static(publicDir));
+
+    app.get("*", (req, res, next) => {
+        if(req.method !== "GET") {
+            next();
+            return;
+        }
+
+    if(req.path.startsWith("/api") || req.path.startsWith("/webhooks")) {
+        next();
+        return;
+    } 
+        res.sendFile(path.join(publicDir, "index.html"),(err) => next(err));
+        
+    });
+}
 
 app.listen(env.PORT, () => {
     console.log("listening on port:", env.PORT);
