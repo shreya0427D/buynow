@@ -49,13 +49,13 @@ export async function clerkWebhookHandler(req: Request, res: Response) {
             await db
                 .insert(users)
                 .values({
-                    clerkId: u.id,
+                    clerkUserId: u.id,
                     email,
                     displayName,
                     role,
                 })
                 .onConflictDoUpdate({
-                    target: users.clerkId,
+                    target: users.clerkUserId,
                     set: {
                         email,
                         displayName,
@@ -71,7 +71,7 @@ export async function clerkWebhookHandler(req: Request, res: Response) {
             if (id) {
                 await db
                     .delete(users)
-                    .where(eq(users.clerkId, id));
+                    .where(eq(users.clerkUserId, id));
             }
         }
 
