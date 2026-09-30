@@ -8,7 +8,6 @@ import path from "node:path";
 import { clerkMiddleware } from "@clerk/express";
 import { clerkWebhookHandler } from "./webhooks/clerk";
 import { getEnv } from "./lib/env";
-import path from "path/win32";
 
 const env = getEnv();
 
