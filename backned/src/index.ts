@@ -6,7 +6,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { clerkMiddleware } from "@clerk/express";
-import { clerkWebhookHandler } from "./webhooks/clerk";
+import { clerkWebhookHandler } from "./webhooks/clerk.js";
+import { polarWebhookHandler } from "./webhooks/polar.js";
 import { getEnv } from "./lib/env.js";
 import keepAliveCron from "./lib/cron.js";
 
@@ -31,9 +32,9 @@ app.post("/webhooks/clerk", rawjson, (req, res) => {
     void clerkWebhookHandler(req, res);
 });
 
-//app.post("/webhooks/polar", rawjson, (req, res) => {
-  //  void polarWebhookHandler(req, res);
-//});
+app.post("/webhooks/polar", rawjson, (req, res) => {
+    void polarWebhookHandler(req, res);
+});
 
 // Normal JSON body parser
 app.use(express.json());
