@@ -10,12 +10,13 @@ import { clerkWebhookHandler } from "./webhooks/clerk";
 import { getEnv } from "./lib/env.js";
 import keepAliveCron from "./lib/cron.js";
 
-
 import productRouter from "./routes/productRouter";
 import meRouter from "./routes/meRouter";
 import streamRouter from "./routes/streamRouter.js";
 
 const env = getEnv();
+
+keepAliveCron.start();
 
 const app = express();
 
@@ -36,8 +37,8 @@ app.use(clerkMiddleware());
 
 app.use(cors());
 
-app.get("/health", (req, res) => {
-    res.json({status: "ok"});
+app.get("/health", (_req, res) => {
+    res.json({ status: "ok" });
 });
 
 app.use("/api/me", meRouter);
