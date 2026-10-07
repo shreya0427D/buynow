@@ -7,7 +7,13 @@ import path from "node:path";
 
 import { clerkMiddleware } from "@clerk/express";
 import { clerkWebhookHandler } from "./webhooks/clerk";
-import { getEnv } from "./lib/env";
+import { getEnv } from "./lib/env.js";
+import keepAliveCron from "./lib/cron.js";
+
+
+import productRouter from "./routes/productRouter";
+import meRouter from "./routes/meRouter";
+import streamRouter from "./routes/streamRouter.js";
 
 const env = getEnv();
 
@@ -29,6 +35,14 @@ app.use(express.json());
 app.use(clerkMiddleware());
 
 app.use(cors());
+
+app.get("/health", (req, res) => {
+    res.json({status: "ok"});
+});
+
+app.use("/api/me", meRouter);
+app.use("/api/products", productRouter);
+app.use("/api/stream", streamRouter);
 
 // Public folder
 const publicDir = path.join(process.cwd(), "public");
