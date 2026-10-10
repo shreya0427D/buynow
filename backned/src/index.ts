@@ -99,21 +99,17 @@ Sentry.setupExpressErrorHandler(app);
 
 // todo: add error handler middleware
 app.use(
-    (
-        err: unknown,
-        req: express.Request,
-        res: express.Response,
-        next: express.NextFunction
-    ) => {
-        const sentryId = (res as express.Response & { sentry?: string }).sentry;
-
-        res.status(500).json({
-            error: "Internal server error",
-            ...(sentryId !== undefined && { sentryId }),
-        });
-    }
+  (
+    _err: unknown,
+    _req: express.Request,
+    res: express.Response,
+    _next: express.NextFunction
+  ) => {
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
 );
-
 
 
 app.listen(env.PORT, () => {
