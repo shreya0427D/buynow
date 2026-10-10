@@ -21,6 +21,8 @@ import streamRouter from "./routes/streamRouter.js";
 import chekoutRouter from "./routes/chekoutRouter";
 
 import adminRouter from "./routes/adminRouter";
+import orderRouter from "./routes/orderRouter";
+
 
 
 
@@ -64,6 +66,7 @@ app.use("/api/products", productRouter);
 app.use("/api/stream", streamRouter);
 app.use("/api/chekout", chekoutRouter);
 app.use("/api/chekout", adminRouter);
+app.use("/api/orders", orderRouter);
 
 // Public folder
 const publicDir = path.join(process.cwd(), "public");
